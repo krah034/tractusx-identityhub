@@ -169,6 +169,15 @@ To contribute to this project, please read the [Contributing Guide](./CONTRIBUTI
 Distributed under the Apache 2.0 License.
 See [LICENSE](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/LICENSE) for more information.
 
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+- SPDX-FileCopyrightText: 2026 LKS Next
+- Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/README.md>
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 

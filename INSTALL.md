@@ -218,5 +218,6 @@ full usage instructions, including prerequisites and port reference.
 This work is licensed under the CC-BY-4.0.
 
 - SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2026 LKS Next
 - SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
-- Source URL: https://github.com/eclipse-tractusx/tractusx-identityhub
+- Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/INSTALL.md>
