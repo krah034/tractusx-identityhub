@@ -41,11 +41,59 @@ jobs:
   test-upgradeability:
     runs-on: ubuntu-latest
     needs: [ test-prepare ]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - release: tx-ih-upgrade
+            chart: tractusx-identityhub
+            local-chart-path: charts/tractusx-identityhub
+            deployment: tx-ih-upgrade
+            imagename: identityhub
+            rootDir: runtimes/identityhub
+          - release: tx-is-upgrade
+            chart: tractusx-issuerservice
+            local-chart-path: charts/tractusx-issuerservice
+            deployment: tx-is-upgrade
+            imagename: issuerservice
+            rootDir: runtimes/issuerservice
+          - release: tx-ihm-upgrade
+            chart: tractusx-identityhub-memory
+            local-chart-path: charts/tractusx-identityhub-memory
+            deployment: tx-ihm-upgrade
+            imagename: identityhub-memory
+            rootDir: runtimes/identityhub-memory
+          - release: tx-ism-upgrade
+            chart: tractusx-issuerservice-memory
+            local-chart-path: charts/tractusx-issuerservice-memory
+            deployment: tx-ism-upgrade
+            imagename: issuerservice-memory
+            rootDir: runtimes/issuerservice-memory
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: ./.github/actions/setup-helm
-      - uses: ./.github/actions/setup-kubectl
+      - name: Run upgradeability test using KinD and Helm
+        uses: ./.github/actions/run-deployment-test
+        with:
+          imagename: ${{ matrix.imagename }}
+          rootDir: ${{ matrix.rootDir }}
+          helm_command: |-
+            helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
+            helm repo add bitnami https://charts.bitnami.com/bitnami
+            helm repo add hashicorp https://helm.releases.hashicorp.com
+            helm repo add runix https://helm.runix.net
+            helm repo update
 
-     # todo: implement this once a first version is released
+            helm install ${{ matrix.release }} tractusx-dev/${{ matrix.chart }} \
+              --dependency-update \
+              --wait-for-jobs --timeout=180s
+
+            kubectl rollout status deployment/${{ matrix.deployment }}
+
+            helm upgrade ${{ matrix.release }} ${{ matrix.local-chart-path }} \
+              --reuse-values \
+              --dependency-update \
+              --wait-for-jobs --timeout=180s
+
+            kubectl rollout status deployment/${{ matrix.deployment }}
