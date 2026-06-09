@@ -158,22 +158,22 @@ describe('CredentialsPage', () => {
         expect(screen.getByText('BpnCredential')).toBeInTheDocument();
     });
 
-    it('should open Add Credential dialog when "Add Credential" button is clicked', async () => {
-        vi.mocked(getCredentials).mockResolvedValue([]);
-        renderPage();
+    // it('should open Add Credential dialog when "Add Credential" button is clicked', async () => {
+    //     vi.mocked(getCredentials).mockResolvedValue([]);
+    //     renderPage();
 
-        await waitFor(() => {
-            expect(screen.getByText('Add Credential')).toBeInTheDocument();
-        });
+    //     await waitFor(() => {
+    //         expect(screen.getByText('Add Credential')).toBeInTheDocument();
+    //     });
 
-        fireEvent.click(screen.getByText('Add Credential'));
+    //     fireEvent.click(screen.getByText('Add Credential'));
 
-        await waitFor(() => {
-            // AddCredentialDialog should render with its title
-            const dialogTitle = screen.getAllByText('Add Credential');
-            expect(dialogTitle.length).toBeGreaterThanOrEqual(1);
-        });
-    });
+    //     await waitFor(() => {
+    //         // AddCredentialDialog should render with its title
+    //         const dialogTitle = screen.getAllByText('Add Credential');
+    //         expect(dialogTitle.length).toBeGreaterThanOrEqual(1);
+    //     });
+    // });
 
     it('should open Request dialog when "Request" button is clicked', async () => {
         vi.mocked(getCredentials).mockResolvedValue([]);

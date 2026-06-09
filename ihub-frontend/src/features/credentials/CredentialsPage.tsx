@@ -207,7 +207,7 @@ const CredentialsPage: React.FC = () => {
                 credentials: [
                     {
                         format: reqCredFormat.trim() || 'ldp_vc',
-                        id: crypto.randomUUID(),
+                        id: reqCredentialId.trim(),
                         type: reqCredType.trim(),
                     },
                 ],

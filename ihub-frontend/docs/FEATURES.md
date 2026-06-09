@@ -132,7 +132,6 @@ Manage verifiable credentials across the full lifecycle: creation, issuance, sto
 |--------|----------|-------------|
 | GET | `/participants/{pid}/credentials` | List credentials for a participant |
 | GET | `/participants/{pid}/credentials/{credentialId}` | Get a single credential |
-| POST | `/participants/{pid}/credentials` | Create a credential |
 | PUT | `/participants/{pid}/credentials` | Update a credential |
 | DELETE | `/participants/{pid}/credentials/{credentialId}` | Delete a credential |
 | POST | `/participants/{pid}/credentials/request` | Request credential issuance |
