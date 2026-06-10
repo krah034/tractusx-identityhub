@@ -97,4 +97,4 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 - SPDX-FileCopyrightText: 2026 Contributors to the Eclipse Foundation
 - SPDX-FileCopyrightText: 2026 Catena-X Automotive Network e.V.
 - SPDX-FileCopyrightText: 2026 LKS Next
-- Source URL: <https://github.com/eclipse-tractusx/tractus-x-identityhub>
+- Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/docs/usage/dcp-api-walkthrough/08_request_credentials.md>

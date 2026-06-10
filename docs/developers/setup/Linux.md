@@ -73,6 +73,6 @@ For detailed installation instructions, please refer to the [Installation Guide]
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
 * SPDX-License-Identifier: CC-BY-4.0
-* SPDX-FileCopyrightText: 2026 LKS Next
 * SPDX-FileCopyrightText: 2026 Contributors to the Eclipse Foundation
-* Source URL: <https://github.com/eclipse-tractusx/tractus-x-identityhub>
+* SPDX-FileCopyrightText: 2026 LKS Next
+* Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/docs/developers/setup/Linux.md>

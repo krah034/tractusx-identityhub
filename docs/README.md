@@ -2,6 +2,19 @@
 
 This directory contains the complete documentation for the Identity Hub and Issuer Service components. The documentation is organized by target audience and functional area.
 
+## Table of Contents
+
+- [Required Knowledge](#required-knowledge)
+- [Best Practices](#best-practices)
+- [Documentation Resources](#documentation-resources)
+	- [Developer Documentation](#developer-documentation)
+	- [Architecture Documentation](#architecture-documentation)
+	- [API Documentation](#api-documentation)
+	- [DCP API Walkthrough](#dcp-api-walkthrough)
+	- [Migration Guide](#migration-guide)
+- [Related Documentation Outside docs](#related-documentation-outside-docs)
+- [NOTICE](#notice)
+
 ## Required Knowledge
 
 To effectively work with this project, familiarity with the following technologies is recommended:
@@ -29,6 +42,10 @@ Technical documentation for understanding the core data models, architecture pat
 
 This section provides detailed information about entity relationships, state machines, and complete workflow diagrams.
 Additionally, includes setup guides for configuring development environments.
+
+### [Architecture Documentation](./architecture/README.md)
+
+Architecture-focused documentation covering system goals, scope, constraints, runtime view, building blocks, decision records, and glossary.
 
 ### [API Documentation](./api/README.md)
 
@@ -68,4 +85,4 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 - SPDX-FileCopyrightText: 2026 Contributors to the Eclipse Foundation
 - SPDX-FileCopyrightText: 2026 Catena-X Automotive Network e.V.
 - SPDX-FileCopyrightText: 2026 LKS Next
-- Source URL: <https://github.com/eclipse-tractusx/tractus-x-identityhub>
+- Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/docs/README.md>

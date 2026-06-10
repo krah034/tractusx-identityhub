@@ -1,6 +1,13 @@
 
 # Tractus-X IdentityHub - a comprehensive DCP Wallet
 
+[![Build Status][build-status-shield]][build-status-url]
+[![Version][version-shield]][version-url]
+[![SemVer][semver-shield]][semver-url]
+[![License][license-shield]][license-url]
+[![Contributors][contributors-shield]][contributors-url]
+[![Stars][stars-shield]][stars-url]
+
 > [!WARNING]
 > This project is under heavy development, expect bugs, problems and radical changes!
 
@@ -14,7 +21,7 @@ We are working at the moment to bring the current implemented functionalities fr
 ## Table of Contents
 
 1. [About The Project](#about-the-project)
-2. [System Architecture](#system-architecture)
+2. [Usage Example](#usage-example)
 3. [Components](#components)
    - [IdentityHub](#identityhub)
    - [IssuerService](#issuerservice)
@@ -25,7 +32,8 @@ We are working at the moment to bring the current implemented functionalities fr
    - [Helm Chart](#helm-chart)
    - [Localhost](#localhost)
 6. [Documentation Hub](#documentation-hub)
-7. [License](#license)
+7. [Contributing](#contributing)
+8. [License](#license)
 
 ---
 
@@ -40,9 +48,11 @@ This project provides deployable versions of two core components:
 
 Both components implement the Decentralized Claims Protocol (DCP) specification, ensuring interoperability and standardized credential exchange within the Tractus-X ecosystem. The project offers ready-to-deploy Helm charts with PostgreSQL and HashiCorp Vault integration for production environments, as well as memory-based variants for development and testing.
 
-## System Architecture
+This project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
-The Tractus-X IdentityHub consists of two main components that work together to provide complete credential lifecycle management:
+## Usage Example
+
+The following usage example shows how the two main components work together to provide complete credential lifecycle management:
 
 ```mermaid
 flowchart LR
@@ -71,14 +81,14 @@ flowchart LR
     %% Issuance Flow
     IH <-->|DCP Protocol<br/>Credential Request & Delivery| IS
     %% Presentation Flow
-    CONN <-->|Presentation Query<br/>/presentation/query| IH
-    style IH fill:#e1f5ff
-    style IS fill:#fff4e1
-    style CONN fill:#d4edda
-    style IH_DB fill:#336791
-    style IS_DB fill:#336791
-    style IH_VAULT fill:#000000,color:#ffffff
-    style IS_VAULT fill:#000000,color:#ffffff
+    CONN <-->|DCP protocol<br/>Presentation flow| IH
+    style IH fill:#e1f5ff,color:#000000
+    style IS fill:#fff4e1,color:#000000
+    style CONN fill:#d4edda,color:#000000
+    style IH_DB fill:#336791,color:#000000
+    style IS_DB fill:#336791,color:#000000
+    style IH_VAULT fill:#d9d9d9,color:#000000
+    style IS_VAULT fill:#d9d9d9,color:#000000
 ```
 
 **Key Interactions:**
@@ -150,10 +160,23 @@ For developer resources, as well as best practices for development and testing, 
 ## Documentation
 Detailed documentation and guides are available in `docs/README.md`: [View documentation](docs/architecture/README.md)
 
+## Contributing
+
+To contribute to this project, please read the [Contributing Guide](./CONTRIBUTING.md).
+
 ## License
 
 Distributed under the Apache 2.0 License.
 See [LICENSE](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/LICENSE) for more information.
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+- SPDX-FileCopyrightText: 2026 LKS Next
+- Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/README.md>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -170,7 +193,15 @@ See [LICENSE](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/LICENSE
 
 [license-url]: https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/LICENSE
 
-[release-shield]: https://img.shields.io/github/v/release/eclipse-tractusx/tractusx-identityhub.svg?style=for-the-badge
+[version-shield]: https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Feclipse-tractusx%2Ftractusx-identityhub%2Fmain%2Fgradle.properties&query=%24.version&label=version&style=for-the-badge
 
-[release-url]: https://github.com/eclipse-tractusx/tractusx-identityhub/releases
+[version-url]: ./gradle.properties
+
+[semver-shield]: https://img.shields.io/badge/SemVer-2.0.0-3F4551.svg?style=for-the-badge
+
+[semver-url]: https://semver.org/
+
+[build-status-shield]: https://github.com/eclipse-tractusx/tractusx-identityhub/actions/workflows/verify.yaml/badge.svg
+
+[build-status-url]: https://github.com/eclipse-tractusx/tractusx-identityhub/actions/workflows/verify.yaml
 

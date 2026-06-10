@@ -1,22 +1,23 @@
-# Deploying Helm Charts in localhost
+# Installation and Deployment Guide
 
 > [!NOTE]
 > This guide has been tested with Linux OS distribution
 
-This document shows a step by step process in order to successfully deploy
-all different helm charts available in this repository in localhost.
+This document shows step-by-step deployment options for all Helm charts available in this repository.
 
-The process prepares and builds the application directly from localhost with 
-no use of Docker Hub to pull images from the cloud. That means we generate the 
-artifact, build the docker image and load it into kubernetes and deploy with helm charts.
+## Table of Contents
 
-
-## Deployments
-
-- [identityhub-memory](#deploying-identityhub-memory)
-- [identityhub](#deploying-identityhub)
-- [issuerservice-memory](#deploying-issuerservice-memory)
-- [issuerservice](#deploying-issuerservice)
+- [Prerequisites](#prerequisites)
+- [Deployment Options](#deployment-options)
+    - [Option A: Localhost (build from source)](#option-a-localhost-build-from-source)
+        - [Deploying identityhub-memory](#deploying-identityhub-memory)
+        - [Deploying identityhub](#deploying-identityhub)
+        - [Deploying issuerservice-memory](#deploying-issuerservice-memory)
+        - [Deploying issuerservice](#deploying-issuerservice)
+    - [Option B: Helm Repository (prebuilt charts)](#option-b-helm-repository-prebuilt-charts)
+- [Local development with Docker Compose](#local-development-with-docker-compose)
+- [Licenses](#licenses)
+- [NOTICE](#notice)
 
 ## Prerequisites
 
@@ -26,28 +27,32 @@ This section describes the tools necessary to deploy the final helm chart and th
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
 - [Helm](https://helm.sh/docs/intro/install/)
 
-## Deploying identityhub-memory
+## Deployment Options
 
-### Build the Jar File
+### Option A: Localhost (build from source)
+
+This option prepares and builds the applications directly on localhost with no use of Docker Hub to pull images from the cloud. The flow is: generate artifact, build Docker image, load into Kubernetes, then deploy with Helm charts.
+
+#### Deploying identityhub-memory
+
+##### Build the Jar File
 ```shell
 ./gradlew clean build
 ```
 
-### Create Docker Image
+##### Create Docker Image
 
 ```shell
-# Path: tractusx-identityhub/
 docker build runtimes/identityhub-memory/ -t identityhub-memory:test -f runtimes/identityhub-memory/Dockerfile
 ```
 
-### Load Docker Image into Minikube
+##### Load Docker Image into Minikube
 ```shell
 minikube image load identityhub-memory:test
 ```
 
-### Deploy Identityhub-memory with Helm Charts
+##### Deploy Identityhub-memory with Helm Charts
 ```shell
-# Path: tractusx-identityhub/
 helm install identityhub-memory charts/tractusx-identityhub-memory/ \
     --set "identityhub.image.tag=test" \
     --set "identityhub.image.repository=identityhub-memory" \
@@ -58,18 +63,18 @@ helm install identityhub-memory charts/tractusx-identityhub-memory/ \
 
 For helm chart options and configuration, see [Helm chart documentation](https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/charts/tractusx-identityhub-memory/README.md)
 
-### Alternative ways to deploy identityhub-memory
+##### Alternative ways to deploy identityhub-memory
 
 In case you don't want to deploy the helm chart, here are other ways to deploy the application.
 
-#### Java application
+###### Java application
 
 ```shell
 java -Dedc.fs.config=runtimes/identityhub-memory/build/resources/main/application.properties \
     -jar runtimes/identityhub-memory/build/libs/identityhub-memory.jar
 ```
 
-#### Run docker image
+###### Run docker image
 
 ```shell
 docker run -d --rm --name identityhub \
@@ -84,28 +89,26 @@ docker run -d --rm --name identityhub \
     identityhub-memory:test
 ```
 
-## Deploying identityhub
+#### Deploying identityhub
 
-### Build the Jar File
+##### Build the Jar File
 ```shell
 ./gradlew clean build
 ```
 
-### Create Docker Image
+##### Create Docker Image
 
 ```shell
-# Path: tractusx-identityhub/
 docker build runtimes/identityhub/ -t identityhub:test -f runtimes/identityhub/Dockerfile
 ```
 
-### Load Docker Image into Minikube
+##### Load Docker Image into Minikube
 ```shell
 minikube image load identityhub:test
 ```
 
-### Deploy Identityhub with Helm Charts
+##### Deploy Identityhub with Helm Charts
 ```shell
-# Path: tractusx-identityhub/
 helm install identityhub charts/tractusx-identityhub/ \
     --set "identityhub.image.tag=test" \
     --set "identityhub.image.repository=identityhub" \
@@ -114,30 +117,28 @@ helm install identityhub charts/tractusx-identityhub/ \
     --dependency-update
 ```
 
-## Deploying issuerservice-memory
+#### Deploying issuerservice-memory
 
-### Build the Jar File
+##### Build the Jar File
 
 ```shell
 ./gradlew clean build
 ```
 
-### Create Docker Image
+##### Create Docker Image
 
 ```shell
-# Path: tractusx-issuerservice/
 docker build runtimes/issuerservice-memory/ -t issuerservice-memory:test -f runtimes/issuerservice-memory/Dockerfile
 ```
 
-### Load Docker Image into Minikube
+##### Load Docker Image into Minikube
 ```shell
 minikube image load issuerservice-memory:test
 ```
 
-### Deploy Issuerservice-memory with Helm Charts
+##### Deploy Issuerservice-memory with Helm Charts
 
 ```shell
-# Path: tractusx-issuerservice/
 helm install issuerservice-memory charts/tractusx-issuerservice-memory/ \
     --set "issuerservice.image.tag=test" \
     --set "issuerservice.image.repository=issuerservice-memory" \
@@ -148,41 +149,39 @@ helm install issuerservice-memory charts/tractusx-issuerservice-memory/ \
 ```
 For helm chart options and configuration, see [Helm chart documentation](https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/charts/tractusx-issuerservice-memory/README.md)
 
-### Alternative ways to deploy issuerservice-memory
+##### Alternative ways to deploy issuerservice-memory
 
 In case you don't want to deploy the helm chart, here are other ways to deploy the application.
 
-#### Run the java application
+###### Run the java application
 
 ```shell
 java -Dedc.fs.config=runtimes/issuerservice-memory/build/resources/main/application.properties
     -jar runtimes/issuerservice-memory/build/libs/issuerservice-memory.jar
 ```
 
-## Deploying issuerservice
+#### Deploying issuerservice
 
-### Build the Jar File
+##### Build the Jar File
 
 ```shell
 ./gradlew clean build
 ```
 
-### Create Docker Image
+##### Create Docker Image
 
 ```shell
-# Path: tractusx-issuerservice/
 docker build runtimes/issuerservice/ -t issuerservice:test -f runtimes/issuerservice/Dockerfile
 ```
 
-### Load Docker Image into Minikube
+##### Load Docker Image into Minikube
 ```shell
 minikube image load issuerservice:test
 ```
 
-### Deploy Issuerservice with Helm Charts
+##### Deploy Issuerservice with Helm Charts
 
 ```shell
-# Path: tractusx-issuerservice/
 helm install issuerservice charts/tractusx-issuerservice/ \
     --set "issuerservice.image.tag=test" \
     --set "issuerservice.image.repository=issuerservice" \
@@ -192,21 +191,33 @@ helm install issuerservice charts/tractusx-issuerservice/ \
 ```
 For helm chart options and configuration, see [Helm chart documentation](https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/charts/tractusx-issuerservice-memory/README.md)
 
+### Option B: Helm Repository (prebuilt charts)
+
+Use this option when you want to install directly from the Tractus-X Helm repository instead of building local artifacts and images.
+
+For installation commands, values, and advanced configuration, refer to the chart-specific README files:
+
+- [tractusx-identityhub-memory](./charts/tractusx-identityhub-memory/README.md)
+- [tractusx-identityhub](./charts/tractusx-identityhub/README.md)
+- [tractusx-issuerservice-memory](./charts/tractusx-issuerservice-memory/README.md)
+- [tractusx-issuerservice](./charts/tractusx-issuerservice/README.md)
+
 ## Local development with Docker Compose
 
 As an alternative to Minikube and Helm, you can run all four runtimes locally using
 Docker Compose. See [deployment/docker/README.md](deployment/docker/README.md) for
 full usage instructions, including prerequisites and port reference.
 
-# Licenses
+## Licenses
 
 - Apache-2.0 for code
 - CC-BY-4.0 for non-code
 
-# NOTICE
+## NOTICE
 
 This work is licensed under the CC-BY-4.0.
 
 - SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2026 LKS Next
 - SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
-- Source URL: https://github.com/eclipse-tractusx/tractusx-identityhub
+- Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/INSTALL.md>

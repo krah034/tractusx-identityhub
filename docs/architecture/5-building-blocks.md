@@ -421,4 +421,4 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 
 - SPDX-License-Identifier: CC-BY-4.0
 - SPDX-FileCopyrightText: 2026 Contributors to the Eclipse Foundation
-- Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub>
+- Source URL: <https://github.com/eclipse-tractusx/tractusx-identityhub/blob/main/docs/architecture/5-building-blocks.md>
