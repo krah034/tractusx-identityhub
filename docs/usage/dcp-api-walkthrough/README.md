@@ -84,7 +84,7 @@ All management APIs use **API Key** authentication via the `x-api-key` header:
 x-api-key: <participant-context-id>.<token>
 ```
 
-The API key encodes both the participant context and the authorization token. The part before the first `.` is the base64url-encoded participant ID.
+The API key encodes both the participant context and the authorization token. The part before the first `.` is the base64url-encoded participant ID — this encoding is part of the API-key auth scheme and is unchanged in 0.17.0. It is **separate from URL path parameters**: as of 0.17.0 ([IH #937](https://github.com/eclipse-edc/IdentityHub/pull/937)), `participantContextId` path segments (e.g. `/v1alpha/participants/{id}`) use the plain participant ID, not a base64url-encoded value.
 
 ## Steps
 

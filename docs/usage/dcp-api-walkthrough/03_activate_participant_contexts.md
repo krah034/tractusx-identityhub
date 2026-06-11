@@ -15,8 +15,7 @@ curl -X PUT "${ISSUER_URL}/api/identity/v1alpha/participants/${ISSUER_CONTEXT}/s
   -H "x-api-key: ${ISSUER_ADMIN_KEY}"
 ```
 
-> **Reminder**: `ISSUER_CONTEXT` is the base64url-encoded participant ID.
-> For `issuer-participant`: `echo -n "issuer-participant" | base64` → `aXNzdWVyLXBhcnRpY2lwYW50`
+> **Reminder**: `ISSUER_CONTEXT` is the plain participant ID (e.g. `issuer-participant`). As of 0.17.0 ([IH #937](https://github.com/eclipse-edc/IdentityHub/pull/937)) `participantContextId` URL path parameters are no longer base64url-encoded.
 
 **Response** (204 No Content): Success, no body returned.
 

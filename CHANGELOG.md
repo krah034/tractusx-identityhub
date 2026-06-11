@@ -30,10 +30,11 @@ For changes in other Tractus-X components, see the [Eclipse Tractus-X Changelog]
 - **BREAKING:** Upgrade EDC and IdentityHub from 0.16.0 to 0.17.0 ([#308](https://github.com/eclipse-tractusx/tractusx-identityhub/issues/308)):
   - `org.eclipse.edc:monitor-jdk-logger` artifact deleted upstream; runtimes now rely solely on the bundled `colored-jdk-monitor` extension
   - `edc-build` plugin bumped from 1.1.6 to 1.4.0 — removed direct `groupId` assignment from POM extension (now read-only)
-  - `@Setting` annotation attribute renamed from `value` to `description` across extensions
+  - `@Setting` annotation attribute renamed from `value` to `description` (and `type` removed) across extensions
   - `ScopeToCriterionTransformer.transform()` → `transformScope()` with return type `Result<List<Criterion>>`
-  - DCP scope alias updated: `org.eclipse.edc.vc.type` → `org.eclipse.dspace.dcp.vc.type` (backward compatible)
-  - No SQL migrations required for IdentityHub / IssuerService tables
+  - **BREAKING:** `participantContextId` is no longer base64url-encoded in API URL paths ([IH #937](https://github.com/eclipse-edc/IdentityHub/pull/937)); the IdentityAPI, IssuerAdminAPI, and credentials/presentation API now use the plain ID. `InitialParticipantExtension` updated to publish the plain `participantContextId` in the DID-document `CredentialService` endpoint (re-activate existing participants to re-publish). The API-key prefix stays base64url-encoded.
+  - DCP scope alias: `TxScopeToCriterionTransformer` now accepts both `org.eclipse.tractusx.vc.type` and the new upstream `org.eclipse.dspace.dcp.vc.type` by default (override via `tx.identityhub.scope.aliases`)
+  - Flyway migration `V0_0_2__Add_Additional_Context_Column.sql` adds the `additional_context` column to `credential_definitions` ([IH #941](https://github.com/eclipse-edc/IdentityHub/pull/941), configurable JSON-LD `@context` on issuance); applied automatically on startup. All other IdentityHub / IssuerService schemas are unchanged.
 - **BREAKING:** Upgrade EDC and IdentityHub from 0.15.1 to 0.16.0 ([#280](https://github.com/eclipse-tractusx/tractusx-identityhub/issues/280)):
   - `org.eclipse.edc.identityhub.spi.participantcontext.model.ParticipantContext` replaced by `IdentityHubParticipantContext`
   - `org.eclipse.edc.identityhub.spi.participantcontext.ParticipantContextService` replaced by `IdentityHubParticipantContextService`

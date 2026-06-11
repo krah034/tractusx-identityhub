@@ -96,13 +96,9 @@ The `validity` field sets the credential expiration in **seconds** from the issu
 
 ## Credential Context (`@context`)
 
-The `@context` of issued credentials is **not configurable** via the credential definition API. It is hardcoded in [`JwtCredentialGenerator.java`](https://github.com/eclipse-edc/IdentityHub/blob/main/core/issuerservice/issuerservice-issuance/src/main/java/org/eclipse/edc/issuerservice/issuance/generator/JwtCredentialGenerator.java):
+EDC/IdentityHub 0.17.0 ([IH #941](https://github.com/eclipse-edc/IdentityHub/pull/941)) added an `additionalContext` field to the `CredentialDefinition` model so the JSON-LD `@context` of issued credentials can carry entries beyond the base W3C credentials context. This is persisted in the `credential_definitions.additional_context` column added by Flyway migration `V0_0_2__Add_Additional_Context_Column.sql`.
 
-```java
-Map.of(JsonLdKeywords.CONTEXT, List.of(VcConstants.W3C_CREDENTIALS_URL), ...)
-```
-
-Issued `VC1_0_JWT` credentials will always contain:
+> **Note**: As of 0.17.0 the IssuerAdmin credential-definition API request body does **not** expose `additionalContext` — the `CredentialDefinitionDto` accepts only `id`, `credentialType`, `format`, `jsonSchema`, `jsonSchemaUrl`, `validity`, `attestations`, `rules`, and `mappings`. Credential definitions created through this API therefore store an empty `additional_context` (`[]`), and issued `VC1_0_JWT` credentials carry only the base context:
 
 ```json
 {
@@ -112,7 +108,7 @@ Issued `VC1_0_JWT` credentials will always contain:
 }
 ```
 
-To add custom `@context` entries (e.g., a Catena-X context URL), you would need to extend or replace the `CredentialGenerator` implementation — it is an `@ExtensionPoint` in the EDC framework.
+Populating `additionalContext` (e.g. with a Catena-X context URL) is not yet possible through the documented Admin API and requires a future API addition or a custom extension that writes the `CredentialDefinition.additionalContext` field directly.
 
 ---
 

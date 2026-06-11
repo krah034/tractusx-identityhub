@@ -2107,6 +2107,19 @@ paths:
           description: Holder not found
         '500':
           description: Internal server error
+    delete:
+      summary: Deletes a holder.
+      tags: *ref_7
+      parameters: []
+      responses:
+        '204':
+          description: Holder deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Holder not found
+        '500':
+          description: Internal server error
   /v1alpha/participants/{PARTICIPANT_CONTEXT_ID}/issuanceprocesses/query:
     parameters:
       - name: PARTICIPANT_CONTEXT_ID
