@@ -21,7 +21,7 @@ body:json {
       {
         "id": "Issuer-IssuerService", 
         "type": "IssuerService", 
-        "serviceEndpoint": "{{ISSUER_ISSUANCE_API}}/v1alpha/participants/{{B64_ISS_ID}}"
+        "serviceEndpoint": "{{ISSUER_ISSUANCE_API}}/v1alpha/participants/{{ISS_ID}}"
       }
     ],
     "active": true,
@@ -42,7 +42,6 @@ body:json {
 script:pre-request {
   const btoa = require("btoa");
   const iss_id = bru.getEnvVar("ISS_ID");
-  bru.setEnvVar("B64_ISS_ID", btoa(iss_id));
 }
 
 script:post-response {

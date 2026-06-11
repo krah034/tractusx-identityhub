@@ -94,7 +94,7 @@
                 },
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"@context\": [\n    \"https://w3id.org/tractusx-trust/v0.8\",\n    \"https://identity.foundation/presentation-exchange/submission/v1\"\n  ],\n  \"type\": \"PresentationQueryMessage\",\n  \"presentationDefinition\": null,\n  \"scope\": [\n    \"org.eclipse.edc.vc.type:SomeCredential_0.3.5:write\",\n    \"org.eclipse.edc.vc.type:SomeOtherCredential:read\",\n    \"org.eclipse.edc.vc.type:ThirdCredential:*\"\n  ]\n}",
+                  "raw": "{\n  \"@context\": [\n    \"https://w3id.org/tractusx-trust/v0.8\",\n    \"https://identity.foundation/presentation-exchange/submission/v1\"\n  ],\n  \"type\": \"PresentationQueryMessage\",\n  \"presentationDefinition\": null,\n  \"scope\": [\n    \"org.eclipse.dspace.dcp.vc.type:SomeCredential_0.3.5:write\",\n    \"org.eclipse.dspace.dcp.vc.type:SomeOtherCredential:read\",\n    \"org.eclipse.dspace.dcp.vc.type:ThirdCredential:*\"\n  ]\n}",
                   "options": {
                     "raw": {
                       "language": "json"

@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{ISSUER_ISS_API}}/v1alpha/participants/{{B64_ISS_ID}}/attestations
+  url: {{ISSUER_ISS_API}}/v1alpha/participants/{{ISS_ID}}/attestations
   body: json
   auth: none
 }
@@ -28,7 +28,6 @@ body:json {
 script:pre-request {
   const btoa = require("btoa");
   const iss_id = bru.getEnvVar("ISS_ID");
-  bru.setEnvVar("B64_ISS_ID", btoa(iss_id));
   req.setHeader("x-api-key", bru.getEnvVar("ISSUER_APIKEY"));
 }
 
