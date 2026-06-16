@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 For changes in other Tractus-X components, see the [Eclipse Tractus-X Changelog](https://github.com/eclipse-tractusx/tractus-x-release/blob/main/CHANGELOG.md).
 
-## [Unreleased]
+## [0.3.2] - 2026-06-16
 
 ### Added
 - Add custom attestation claims table with SQL migration, extension, and configuration for flexible credential issuance by @AYaoZhan in [#299](https://github.com/eclipse-tractusx/tractusx-identityhub/pull/299)
