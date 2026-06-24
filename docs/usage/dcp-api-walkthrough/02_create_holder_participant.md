@@ -30,14 +30,14 @@ curl -X POST "${IDH_URL}/api/identity/v1alpha/participants" \
       {
         "id": "https://identity-hub.example.com#credential-service",
         "type": "CredentialService",
-        "serviceEndpoint": "https://identity-hub.example.com/api/credentials/v1/participants/aWRoLXBhcnRpY2lwYW50"
+        "serviceEndpoint": "https://identity-hub.example.com/api/credentials/v1/participants/idh-participant"
       }
     ]
   }'
 ```
 
 > **Note**: The Holder's `serviceEndpoint` type is `CredentialService` (not `IssuerService`).
-> Encoded ID: `echo -n "idh-participant" | base64` → `aWRoLXBhcnRpY2lwYW50`
+> As of 0.17.0 ([IH #937](https://github.com/eclipse-edc/IdentityHub/pull/937)) the `participantContextId` in URL paths is plain text (not base64url-encoded), so the endpoint ends in `idh-participant`.
 
 ## Response
 
@@ -54,7 +54,7 @@ curl -X POST "${IDH_URL}/api/identity/v1alpha/participants" \
 
 ```bash
 export IDH_API_KEY="<returned apiKey>"
-export IDH_CONTEXT="aWRoLXBhcnRpY2lwYW50"
+export IDH_CONTEXT="idh-participant"
 ```
 
 ## Issuer vs. Holder Differences

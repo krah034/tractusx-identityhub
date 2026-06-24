@@ -1,5 +1,6 @@
 /*
  *   Copyright (c) 2025 Cofinity-X
+ *   Copyright (c) 2026 Technovative Solutions
  *   Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  *   See the NOTICE file(s) distributed with this work for additional
@@ -43,6 +44,10 @@ public class TxScopeToCriterionTransformer implements ScopeToCriterionTransforme
 
     public static final String TYPE_OPERAND = "verifiableCredential.credential.type";
     public static final String DEFAULT_ALIAS_LITERAL = "org.eclipse.tractusx.vc.type";
+    // EDC 0.17.0 replaced the upstream DCP scope alias org.eclipse.edc.vc.type with this one.
+    // Accepted by default alongside the Tractus-X alias so external 0.17.0 connectors interoperate.
+    public static final String DCP_ALIAS_LITERAL = "org.eclipse.dspace.dcp.vc.type";
+    public static final String DEFAULT_ALIASES = DEFAULT_ALIAS_LITERAL + "," + DCP_ALIAS_LITERAL;
     public static final String ALIAS_LITERAL = DEFAULT_ALIAS_LITERAL;
     public static final String CONTAINS_OPERATOR = "contains";
     private static final String SCOPE_SEPARATOR = ":";
@@ -51,7 +56,7 @@ public class TxScopeToCriterionTransformer implements ScopeToCriterionTransforme
     private final List<String> allowedOperations = List.of("read", "*", "all");
 
     public TxScopeToCriterionTransformer() {
-        this(Set.of(DEFAULT_ALIAS_LITERAL));
+        this(Set.of(DEFAULT_ALIAS_LITERAL, DCP_ALIAS_LITERAL));
     }
 
     public TxScopeToCriterionTransformer(Set<String> allowedAliases) {
@@ -69,13 +74,13 @@ public class TxScopeToCriterionTransformer implements ScopeToCriterionTransforme
     }
 
     @Override
-    public Result<Criterion> transform(String scope) {
+    public Result<List<Criterion>> transformScope(String scope) {
         var tokens = tokenize(scope);
         if (tokens.failed()) {
             return failure("Scope string cannot be converted: %s".formatted(tokens.getFailureDetail()));
         }
         var credentialType = tokens.getContent()[1];
-        return success(new Criterion(TYPE_OPERAND, CONTAINS_OPERATOR, credentialType));
+        return success(List.of(new Criterion(TYPE_OPERAND, CONTAINS_OPERATOR, credentialType)));
     }
 
     protected Result<String[]> tokenize(String scope) {

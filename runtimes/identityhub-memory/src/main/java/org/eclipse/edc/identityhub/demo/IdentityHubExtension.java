@@ -1,5 +1,6 @@
 /*
  *   Copyright (c) 2025 Cofinity-X
+ *   Copyright (c) 2026 Technovative Solutions
  *   Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  *   See the NOTICE file(s) distributed with this work for additional
@@ -42,16 +43,16 @@ public class IdentityHubExtension implements ServiceExtension {
 
     @Setting(
             key = "tx.identityhub.scope.aliases",
-            value = "Comma-separated list of accepted credential scope aliases for presentation queries.",
-            defaultValue = TxScopeToCriterionTransformer.DEFAULT_ALIAS_LITERAL
+            description = "Comma-separated list of accepted credential scope aliases for presentation queries.",
+            defaultValue = TxScopeToCriterionTransformer.DEFAULT_ALIASES
     )
     public static final String TX_SCOPE_ALIASES = "tx.identityhub.scope.aliases";
 
-    private Set<String> allowedScopeAliases = Set.of(TxScopeToCriterionTransformer.DEFAULT_ALIAS_LITERAL);
+    private Set<String> allowedScopeAliases = parseAliases(TxScopeToCriterionTransformer.DEFAULT_ALIASES);
 
     @Override
     public void initialize(ServiceExtensionContext context) {
-        var configuredAliases = context.getSetting(TX_SCOPE_ALIASES, TxScopeToCriterionTransformer.DEFAULT_ALIAS_LITERAL);
+        var configuredAliases = context.getSetting(TX_SCOPE_ALIASES, TxScopeToCriterionTransformer.DEFAULT_ALIASES);
         allowedScopeAliases = parseAliases(configuredAliases);
     }
 

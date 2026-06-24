@@ -1,4 +1,5 @@
 /*
+ *   Copyright (c) 2026 Technovative Solutions
  *   Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  *   See the NOTICE file(s) distributed with this work for additional
@@ -25,8 +26,10 @@ import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.result.Result;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -36,17 +39,30 @@ class TxScopeToCriterionTransformerTest {
     void transform_acceptsConfiguredAlias() {
         ScopeToCriterionTransformer transformer = new TxScopeToCriterionTransformer(Set.of("org.eclipse.tractusx.vc.type", "org.dataspacex.vc.type"));
 
-        Result<Criterion> result = transformer.transform("org.dataspacex.vc.type:MembershipCredential:read");
+        Result<List<Criterion>> result = transformer.transformScope("org.dataspacex.vc.type:MembershipCredential:read");
 
         assertTrue(result.succeeded());
         assertNotNull(result.getContent());
+        assertEquals(1, result.getContent().size());
+        var criterion = result.getContent().get(0);
+        assertEquals(TxScopeToCriterionTransformer.TYPE_OPERAND, criterion.getOperandLeft());
+        assertEquals(TxScopeToCriterionTransformer.CONTAINS_OPERATOR, criterion.getOperator());
+        assertEquals("MembershipCredential", criterion.getOperandRight());
+    }
+
+    @Test
+    void transform_acceptsBothDefaultAliases() {
+        ScopeToCriterionTransformer transformer = new TxScopeToCriterionTransformer();
+
+        assertTrue(transformer.transformScope("org.eclipse.tractusx.vc.type:MembershipCredential:read").succeeded());
+        assertTrue(transformer.transformScope("org.eclipse.dspace.dcp.vc.type:MembershipCredential:read").succeeded());
     }
 
     @Test
     void transform_rejectsUnsupportedAlias() {
         ScopeToCriterionTransformer transformer = new TxScopeToCriterionTransformer();
 
-        Result<Criterion> result = transformer.transform("org.dataspacex.vc.type:MembershipCredential:read");
+        Result<List<Criterion>> result = transformer.transformScope("org.dataspacex.vc.type:MembershipCredential:read");
 
         assertTrue(result.failed());
         assertTrue(result.getFailureDetail().contains(TxScopeToCriterionTransformer.DEFAULT_ALIAS_LITERAL));

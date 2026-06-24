@@ -1,4 +1,5 @@
 /*
+ *   Copyright (c) 2026 Technovative Solutions
  *   Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  *   See the NOTICE file(s) distributed with this work for additional
@@ -28,6 +29,8 @@ import org.eclipse.edc.spi.system.ServiceExtensionContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
@@ -38,19 +41,19 @@ class IdentityHubExtensionTest {
 
     @Test
     void initialize_usesConfiguredAliases(ServiceExtensionContext context) {
-        when(context.getSetting(eq(IdentityHubExtension.TX_SCOPE_ALIASES), eq(TxScopeToCriterionTransformer.DEFAULT_ALIAS_LITERAL)))
+        when(context.getSetting(eq(IdentityHubExtension.TX_SCOPE_ALIASES), eq(TxScopeToCriterionTransformer.DEFAULT_ALIASES)))
                 .thenReturn("org.eclipse.tractusx.vc.type, org.dataspacex.vc.type");
 
         IdentityHubExtension extension = new IdentityHubExtension();
         extension.initialize(context);
 
-        Result<Criterion> result = extension.createScopeTransformer().transform("org.dataspacex.vc.type:MembershipCredential:read");
+        Result<List<Criterion>> result = extension.createScopeTransformer().transformScope("org.dataspacex.vc.type:MembershipCredential:read");
         assertTrue(result.succeeded());
     }
 
     @Test
     void initialize_failsWhenAliasesAreBlank(ServiceExtensionContext context) {
-        when(context.getSetting(eq(IdentityHubExtension.TX_SCOPE_ALIASES), eq(TxScopeToCriterionTransformer.DEFAULT_ALIAS_LITERAL)))
+        when(context.getSetting(eq(IdentityHubExtension.TX_SCOPE_ALIASES), eq(TxScopeToCriterionTransformer.DEFAULT_ALIASES)))
                 .thenReturn(" , ");
 
         IdentityHubExtension extension = new IdentityHubExtension();

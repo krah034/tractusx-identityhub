@@ -2,6 +2,63 @@
 
 This migration guide is based on the `chartVersion` of the chart. If you don't rely on the provided helm chart, consider the changes of the chart as mentioned below manually.
 
+## EDC 0.16.0 → 0.17.0
+
+This section documents the steps required to upgrade tractusx-identityhub from EDC 0.16.0 to 0.17.0. See [#308](https://github.com/eclipse-tractusx/tractusx-identityhub/issues/308) for full details.
+
+### 1. Build System Changes
+
+| Component | Before | After | Reason |
+|-----------|--------|-------|--------|
+| EDC | 0.16.0 | 0.17.0 | Upstream upgrade |
+| edc-build plugin | 1.1.6 | 1.4.0 | Required by upstream 0.17.0 |
+| Gradle wrapper | 9.3.1 | 9.4.1 | Aligns with upstream 0.17.0 (9.3.1 also works) |
+
+**`gradle/libs.versions.toml`** — update the `edc` and `edc-build` versions:
+
+```toml
+edc = "0.17.0"           # was 0.16.0
+edc-build = "1.4.0"      # was 1.1.6
+```
+
+The upstream `monitor-jdk-logger` module was removed in 0.17.0 ([EDC #5539](https://github.com/eclipse-edc/Connector/pull/5539)); drop its alias and any `implementation(...)` of it (the bundled `colored-jdk-monitor` extension covers logging). `edc-build 1.4.0` makes the POM `groupId` read-only — remove any explicit `groupId = ...` assignment from `build.gradle.kts`.
+
+### 2. Java / SPI Changes
+
+- **`@Setting` annotation**: the `value` attribute is replaced by `description`, and the `type` attribute is removed. Update every `@Setting(value = "...")` → `@Setting(description = "...")`.
+- **`ScopeToCriterionTransformer`**: `transform(String): Result<Criterion>` is renamed to `transformScope(String): Result<List<Criterion>>`. Update any custom implementation and its callers (return a single-element list for a one-criterion mapping).
+
+### 3. Breaking API Change — `participantContextId` no longer base64-encoded in URLs
+
+[IH #937](https://github.com/eclipse-edc/IdentityHub/pull/937) removed base64url-decoding of the `participantContextId` path segment from the IdentityAPI, IssuerAdminAPI, and the credentials/presentation (Storage) API. URL paths now use the **plain** `participantContextId`.
+
+- **Operators / API clients**: stop base64-encoding `participantContextId` in request URLs (e.g. `/v1alpha/participants/{id}`). DIDs embedded in paths, and the API-key prefix (`base64(participantContextId).<token>`), are unaffected.
+- **This repo**: `InitialParticipantExtension` no longer base64-encodes the `CredentialService` endpoint baked into published DID documents — it writes the plain participant ID. Participant contexts created by a 0.16.0 deployment that published a base64 endpoint should be re-published (re-activated) so their DID document carries the plain endpoint.
+
+### 4. Configuration Changes
+
+- **Scope aliases**: 0.17.0 replaced the upstream DCP scope alias `org.eclipse.edc.vc.type` with `org.eclipse.dspace.dcp.vc.type`. The bundled `TxScopeToCriterionTransformer` now accepts **both** `org.eclipse.tractusx.vc.type` (Tractus-X default) and `org.eclipse.dspace.dcp.vc.type` out of the box. Override with `tx.identityhub.scope.aliases` (comma-separated) to accept a different set.
+- No new required settings. `edc.encryption.strict` and `edc.iam.credential.revocation.mimetype` from the 0.16.0 upgrade are unchanged.
+
+### 5. Database Migrations
+
+One Flyway migration is required for the IssuerService `credential_definitions` table — 0.17.0 adds an `additional_context` column ([IH #941](https://github.com/eclipse-edc/IdentityHub/pull/941), configurable JSON-LD `@context` on issuance). It runs automatically on startup if Flyway is enabled. If you manage schema manually:
+
+```sql
+ALTER TABLE credential_definitions ADD COLUMN IF NOT EXISTS additional_context JSON NOT NULL DEFAULT '[]';
+```
+
+> All other IdentityHub / IssuerService store schemas are unchanged between 0.16.0 and 0.17.0. The `participant_context` `state` codes are unchanged.
+
+### 6. Verification
+
+```bash
+./gradlew clean build
+./gradlew :runtimes:identityhub:shadowJar :runtimes:issuerservice:shadowJar
+```
+
+All tests should pass and shadow JARs should be produced in `runtimes/*/build/libs/`.
+
 ## EDC 0.15.1 → 0.16.0
 
 This section documents the steps required to upgrade tractusx-identityhub from EDC 0.15.1 to 0.16.0. See [#280](https://github.com/eclipse-tractusx/tractusx-identityhub/issues/280) for full details.

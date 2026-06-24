@@ -38,7 +38,7 @@ curl -s "https://issuer-service.example.com/.well-known/did.json" | jq .
     {
       "id": "https://issuer-service.example.com#credential-service",
       "type": "IssuerService",
-      "serviceEndpoint": "https://issuer-service.example.com/api/issuance/v1alpha/participants/aXNzdWVyLXBhcnRpY2lwYW50"
+      "serviceEndpoint": "https://issuer-service.example.com/api/issuance/v1alpha/participants/issuer-participant"
     }
   ]
 }
@@ -76,7 +76,7 @@ curl -s "https://identity-hub.example.com/.well-known/did.json" | jq .
     {
       "id": "https://identity-hub.example.com#credential-service",
       "type": "CredentialService",
-      "serviceEndpoint": "https://identity-hub.example.com/api/credentials/v1/participants/aWRoLXBhcnRpY2lwYW50"
+      "serviceEndpoint": "https://identity-hub.example.com/api/credentials/v1/participants/idh-participant"
     }
   ]
 }

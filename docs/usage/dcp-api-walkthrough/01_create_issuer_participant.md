@@ -36,15 +36,14 @@ curl -X POST "${ISSUER_URL}/api/identity/v1alpha/participants" \
       {
         "id": "https://issuer-service.example.com#credential-service",
         "type": "IssuerService",
-        "serviceEndpoint": "https://issuer-service.example.com/api/issuance/v1alpha/participants/aXNzdWVyLXBhcnRpY2lwYW50"
+        "serviceEndpoint": "https://issuer-service.example.com/api/issuance/v1alpha/participants/issuer-participant"
       }
     ],
     "apiKeyAlias": "issuer-api-key-alias"
   }'
 ```
 
-> **Important**: The `serviceEndpoint` URL contains the base64url-encoded participant ID.
-> For `issuer-participant`: `echo -n "issuer-participant" | base64` → `aXNzdWVyLXBhcnRpY2lwYW50`
+> **Important**: As of EDC/IdentityHub 0.17.0 ([IH #937](https://github.com/eclipse-edc/IdentityHub/pull/937)), the `participantContextId` in API URL paths is used **as-is** (plain text) — it is no longer base64url-encoded. The `serviceEndpoint` above therefore ends in the plain `issuer-participant`.
 
 ## Response
 
@@ -57,11 +56,13 @@ curl -X POST "${ISSUER_URL}/api/identity/v1alpha/participants" \
 }
 ```
 
+> **Note**: The prefix of the `apiKey` (before the first `.`) is still the base64url-encoded participant ID — that encoding is part of the API-key auth scheme and is unchanged in 0.17.0. It is unrelated to URL path parameters, which now use the plain participant ID.
+
 ## Save the API Key
 
 ```bash
 export ISSUER_API_KEY="<returned apiKey>"
-export ISSUER_CONTEXT="aXNzdWVyLXBhcnRpY2lwYW50"
+export ISSUER_CONTEXT="issuer-participant"
 ```
 
 ## Request Fields
